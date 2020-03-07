@@ -18,6 +18,8 @@ const log = (v) => console.log(`${v} \n Elapsed ${Date.now() - tick} ms`);
 const codeBlocker = () => {
 
     return new Promise( (resolve, reject) => {
+
+        // this gets executed in main thread. hence blocking
         let i = 0;
         while (i < 100000000) { i++; }
 
