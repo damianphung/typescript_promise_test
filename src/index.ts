@@ -1,4 +1,15 @@
-import fetch from 'node-fetch';
+// Promises = micro task, callback is triggered 
+// BEFORE the start of the next event loop
+
+// Macro tasks callbacks are triggered on the NEXT event loop
+console.log("one");
+
+setTimeout(_ => console.log("two - setTimeout"));
+
+Promise.resolve().then(_ => console.log("three - Promise"));
+
+console.log("four");
+
 
 const tick = Date.now();
 const log = (v) => console.log(`${v} \n Elapsed ${Date.now() - tick} ms`);
@@ -10,7 +21,7 @@ const codeBlocker = () => {
         let i = 0;
         while (i < 100000000) { i++; }
 
-        if (true ) resolve("loops done");
+        if (true ) resolve("Finished executing BLOCKING code");
         reject("bad");
     }  )
     // return 'loops done';
@@ -25,14 +36,14 @@ const nonBlocker = () => {
     return Promise.resolve().then( v => {
         let i = 0;
         while (i < 100000000) { i++; }
-        return 're-define resolve loops done';
+        return '**Finished executing NON-BLOCKING code';
     } )
 }
 
 console.log("-----------")
-log('Before NON code Blocker');
+log('**Before NON code Blocker');
 nonBlocker().then(log);
-log('After NON code Blocker');
+log('**After NON code Blocker');
 // const promise = fetch('https://jsonplaceholder.typicode.com/todos/1');
 // promise
 //     .then(res => res.json())
